@@ -1,0 +1,100 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      fetch("https://reqres.in/api/users")
+        .then((text) => text.json())
+        .then((data) => {
+          console.log(data);
+        });
+    </script>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .btn {
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn">Загрузить данные</button>
+    <div class="block"></div>
+
+    <script>
+      const block = document.querySelector(".block");
+      const button = document.querySelector(".btn");
+
+      const getNewItem = (userData) => {
+        const image = document.createElement("img");
+        image.setAttribute("src", userData.avatar);
+        image.style.width = "50px";
+        image.style.height = "50px";
+
+        const firstName = document.createElement("span");
+        const lastName = document.createElement("span");
+
+        firstName.textContent = userData.first_name;
+        lastName.textContent = userData.last_name;
+
+        return [image, firstName, lastName];
+      };
+
+      const renderDataList = (users) => {
+        const list = document.createElement("ul");
+
+        users.forEach((user, index) => {
+          const li = document.createElement("li");
+          const infoItem = getNewItem(user);
+          infoItem.forEach((info) => {
+            li.appendChild(info);
+          });
+          list.appendChild(li);
+        });
+
+        block.appendChild(list);
+      };
+
+      const renderError = () => {
+        const errorBlock = document.createElement("div");
+        errorBlock.textContent = "Данные загрузить не удалось";
+
+        errorBlock.style.backgroundColor = "red";
+        errorBlock.style.width = "100px";
+        errorBlock.style.height = "100px";
+        errorBlock.style.margin = "0 auto";
+        errorBlock.style.display = "flex";
+        errorBlock.style.alignItems = "center";
+        errorBlock.style.textAlign = "center";
+
+        block.appendChild(errorBlock);
+      };
+
+      const requestUsers = () => {
+        block.innerHTML = "";
+
+        fetch("https://reqres.in/api/users")
+          .then((text) => text.json())
+          .then((res) => renderDataList(res.data))
+          .catch(renderError);
+      };
+
+      button.addEventListener("click", requestUsers);
+    </script>
+  </body>
+</html>

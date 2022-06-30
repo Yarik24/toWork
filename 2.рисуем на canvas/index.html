@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рисуем</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      let canvas = document.getElementById("canvas");
+      canvas.width = 800;
+      canvas.height = 600;
+      let context = canvas.getContext("2d");
+      // Прямоугольник
+      context.fillRect(0, 500, 100, 50);
+      // Квадрат
+      let positionX = 700;
+
+      context.beginPath();
+      context.fillStyle = "pink";
+      context.rect(positionX, 500, 50, 50);
+      context.fill();
+
+      let size = 50;
+      setInterval(function () {
+        context.beginPath();
+        context.clearRect(700, 500, 800, 600);
+        context.fillStyle = "red";
+        context.rect(700, 500, size, size);
+        context.fill();
+        size++;
+        if (size > 70) {
+          size = 50;
+        }
+      }, 60);
+      // Круг
+      context.beginPath();
+      context.arc(50, 50, 30, 0, 2 * Math.PI);
+      context.fill();
+      context.stroke();
+      // Треугольник
+      context.beginPath();
+      context.moveTo(700, 50);
+      context.lineTo(700, 100);
+      context.lineTo(750, 100);
+      context.closePath();
+      context.fill();
+      context.stroke();
+    </script>
+  </body>
+</html>

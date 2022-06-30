@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>debounce</title>
+    <style>
+      .element {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="open" data-open="">open</button>
+    <div id="elem">
+      <div
+        class="element"
+        style="margin-top: 20px; width: 100px; height: 100px; background: red"
+      ></div>
+      <div
+        class="element"
+        style="margin-top: 20px; width: 100px; height: 100px; background: blue"
+      ></div>
+      <div
+        class="element"
+        style="margin-top: 20px; width: 100px; height: 100px; background: green"
+      ></div>
+    </div>
+
+    <script>
+      const openBtn = document.querySelector("#open");
+      const blocks = document.querySelectorAll(".element");
+
+      const debounce = (fn, ms) => {
+        let timeout;
+        return function () {
+          const fnCall = () => {
+            fn.apply(this, arguments);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(fnCall, ms);
+        };
+      };
+
+      const changeState = (evt) => {
+        const isOpen = !!evt.target.dataset.open;
+        evt.target.dataset.open = isOpen ? "" : "open";
+        openBtn.textContent = isOpen ? "open" : "close";
+
+        blocks.forEach((elem) => {
+          elem.style.display = isOpen ? "none" : "block";
+        });
+      };
+
+      openBtn.addEventListener("click", debounce(changeState, 1000));
+    </script>
+  </body>
+</html>
